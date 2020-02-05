@@ -100,6 +100,12 @@ class PDFLayoutAnalyzer(PDFTextDevice):
                                          stroke, fill, evenodd, gstate.scolor,
                                          gstate.ncolor))
                 return
+
+        if re.match('^(mlllh)+$', shape):
+            for path_group in zip(*(iter(path),) * 5):
+                self.paint_path(gstate, stroke, fill, evenodd, list(path_group))
+            return
+
         # other shapes
         pts = []
         for p in path:
